@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, Paper, Typography } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Link } from 'react-router-dom';
 

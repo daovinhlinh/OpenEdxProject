@@ -1,8 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, fork, put, take } from "redux-saga/effects";
 import { authActions, LoginPayload } from "./authSlice";
-import cityApi from '../../api/cityApi'
-import { City } from "models";
 
 function* handlelogin(payload: LoginPayload) {
   //call api

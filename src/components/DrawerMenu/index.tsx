@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer, Button, Typography } from '@mui/material';
+import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
-import MenuIcon from '@mui/icons-material/Menu';
 import { makeStyles } from '@mui/styles';
 
 interface DrawerMenuProps {
@@ -31,7 +30,7 @@ const useStyles = makeStyles({
 
 })
 
-export const DrawerMenu = () => {
+export const DrawerMenu = ({ type }: { type: number }) => {
   const classes = useStyles();
 
   const [drawer, setDrawer] = useState(false);
@@ -61,7 +60,7 @@ export const DrawerMenu = () => {
   return (
     <div>
       <Drawer
-        variant='permanent'
+        variant={type == 1 ? 'permanent' : 'temporary'}
         anchor="left"
         onClose={toggleDrawer}
         classes={{ paper: classes.drawer }}

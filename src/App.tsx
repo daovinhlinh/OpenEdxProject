@@ -1,24 +1,25 @@
-import cityApi from 'api/cityApi';
-import studentApi from 'api/studentApi';
 import { NotFound, PrivateRoute } from 'components/Common';
 import LoginPage from 'features/auth/pages/LoginPage';
 import { useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { AdminLayout } from 'screens/Admin';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { HomePage } from 'screens/HomePage';
 import { CourseManagement } from 'screens/CourseManagement';
+import MenuAppBar from 'components/MenuAppBar';
 
 function App() {
+  const location = useLocation();
+
   useEffect(() => {
-    cityApi.getAll().then(res => console.log(res.data));
-    studentApi.getAll({ _page: 1 }).then(res => console.log(res.data));
-  })
+    console.log(location.pathname);
+  }, [])
 
   return (
     <div className="App">
+      <MenuAppBar />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         {/* <Route element={<PrivateRoute />}> */}
-        <Route path="/" element={<AdminLayout />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/course" element={<CourseManagement />} />
         {/* </Route> */}
         <Route path="*" element={<NotFound />} />
