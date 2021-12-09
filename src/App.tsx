@@ -1,29 +1,43 @@
 import { NotFound, PrivateRoute } from 'components/Common';
-import LoginPage from 'features/auth/pages/LoginPage';
-import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Login } from 'screens/Login';
+import { Route, Routes } from 'react-router-dom';
 import { HomePage } from 'screens/HomePage';
 import { CourseManagement } from 'screens/CourseManagement';
 import MenuAppBar from 'components/MenuAppBar';
+import { AddCourse } from 'screens/AddCourse';
+import { UserManagement } from 'screens/UserManagement';
+import { CourseDetail } from 'screens/CourseDetail';
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/private-theming';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#0B3C5D',
+    },
+    secondary: {
+      main: '#1D2731',
+    },
+  },
+});
 
 function App() {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [])
-
   return (
-    <div className="App">
-      <MenuAppBar />
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        {/* <Route element={<PrivateRoute />}> */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/course" element={<CourseManagement />} />
-        {/* </Route> */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+    <div className='App'>
+      <ThemeProvider theme={theme}>
+        <MenuAppBar />
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/course' element={<CourseManagement />} />
+            <Route path='/user' element={<UserManagement />} />
+            <Route path='/add' element={<AddCourse />} />
+            <Route path='/course/:id' element={<CourseDetail />} />
+          </Route>
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+      </ThemeProvider>
     </div>
   );
 }

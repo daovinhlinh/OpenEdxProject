@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react';
 import { DrawerMenu } from 'components/DrawerMenu';
 import { Box, Tabs, Tab, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { CustomCard } from 'components/CustomCard';
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles({
   root: {
     display: 'flex',
     flexFlow: 'row',
@@ -19,13 +19,13 @@ const useStyles = makeStyles(({
   tableContainer: {
     display: 'flex',
     flexDirection: 'row',
-    width: '100%'
+    width: '100%',
   },
   table: {
     flex: 1,
     paddingLeft: 20,
-  }
-}));
+  },
+});
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -38,7 +38,7 @@ const TabPanel = (props: TabPanelProps) => {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -51,8 +51,7 @@ const TabPanel = (props: TabPanelProps) => {
       )}
     </div>
   );
-}
-
+};
 
 export const HomePage = () => {
   const [tab, setTab] = React.useState(0);
@@ -68,29 +67,29 @@ export const HomePage = () => {
         <DrawerMenu type={2} />
         <div className={classes.detailPage}>
           <CustomCard
-            heading="Số khóa học"
-            title="20"
+            heading='Số khóa học'
+            title='20'
             subtitle='khóa'
             buttonText='Xem chi tiết'
             page='course'
           />
           <CustomCard
-            heading="Số học sinh"
-            title="20"
+            heading='Số học sinh'
+            title='20'
             subtitle='người'
             buttonText='Xem chi tiết'
             page='course'
           />
           <CustomCard
-            heading="Số khóa học"
-            title="20"
+            heading='Số khóa học'
+            title='20'
             subtitle='subtitle'
             buttonText='Xem chi tiết'
             page='course'
           />
           <CustomCard
-            heading="Số khóa học"
-            title="20"
+            heading='Số khóa học'
+            title='20'
             subtitle='subtitle'
             buttonText='Xem chi tiết'
             page='course'
@@ -98,10 +97,10 @@ export const HomePage = () => {
           <div className={classes.tableContainer}>
             <div className={classes.table}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-                <Tabs value={tab} onChange={handleChangeTab} aria-label="basic tabs example">
-                  <Tab label="Item One" />
-                  <Tab label="Item Two" />
-                  <Tab label="Item Three" />
+                <Tabs value={tab} onChange={handleChangeTab} aria-label='basic tabs example'>
+                  <Tab label='Item One' />
+                  <Tab label='Item Two' />
+                  <Tab label='Item Three' />
                 </Tabs>
               </Box>
               <TabPanel value={tab} index={0}>
@@ -116,14 +115,16 @@ export const HomePage = () => {
             </div>
             <div className={classes.table}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-                <Tabs value={tab} onChange={handleChangeTab} aria-label="basic tabs example">
-                  <Tab label="Item One" />
-                  <Tab label="Item Two" />
-                  <Tab label="Item Three" />
+                <Tabs value={tab} onChange={handleChangeTab} aria-label='basic tabs example'>
+                  <Tab label='Item One' />
+                  <Tab label='Item Two' />
+                  <Tab label='Item Three' />
                 </Tabs>
               </Box>
               <TabPanel value={tab} index={0}>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, molestias officia alias distinctio corporis fuga suscipit, error saepe consectetur quo autem officiis nisi dicta illum eius blanditiis consequuntur accusamus voluptas?
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, molestias officia
+                alias distinctio corporis fuga suscipit, error saepe consectetur quo autem officiis
+                nisi dicta illum eius blanditiis consequuntur accusamus voluptas?
               </TabPanel>
               <TabPanel value={tab} index={1}>
                 Tab 2
@@ -135,6 +136,6 @@ export const HomePage = () => {
           </div>
         </div>
       </div>
-    </div >
-  )
-}
+    </div>
+  );
+};

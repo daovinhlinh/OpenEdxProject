@@ -1,1 +1,1 @@
-export const API_ENDPOINT = 'http://js-post-api.herokuapp.com/api';
+export const API_ENDPOINT = 'http://lms01.daotao.ai/api';

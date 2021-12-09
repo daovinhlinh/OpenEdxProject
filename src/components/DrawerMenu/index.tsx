@@ -1,19 +1,23 @@
-import { useState } from 'react'
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, Drawer, Typography } from '@mui/material';
+import { useState } from 'react';
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Drawer,
+  Typography,
+} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { makeStyles } from '@mui/styles';
 
-interface DrawerMenuProps {
-  open: boolean
-}
-
-const drawerWidth = 300
+const drawerWidth = 300;
 
 const useStyles = makeStyles({
   root: {
     width: drawerWidth,
-
   },
   drawer: {
     paddingTop: 30,
@@ -25,10 +29,9 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: '100%'
-  }
-
-})
+    height: '100%',
+  },
+});
 
 export const DrawerMenu = ({ type }: { type: number }) => {
   const classes = useStyles();
@@ -37,55 +40,51 @@ export const DrawerMenu = ({ type }: { type: number }) => {
 
   const toggleDrawer = () => {
     setDrawer(!drawer);
-  }
+  };
   const list = [
     {
       title: 'Home',
-      icon: <HomeIcon />
-    }, {
-
+      icon: <HomeIcon />,
+    },
+    {
       title: 'Courses',
-      icon: <HomeIcon />
+      icon: <HomeIcon />,
     },
     {
       title: 'Users',
-      icon: <HomeIcon />
+      icon: <HomeIcon />,
     },
     {
       title: 'Grades',
-      icon: <HomeIcon />
+      icon: <HomeIcon />,
     },
-  ]
+  ];
 
   return (
     <div>
       <Drawer
-        variant={type == 1 ? 'permanent' : 'temporary'}
-        anchor="left"
+        variant={type === 1 ? 'permanent' : 'temporary'}
+        anchor='left'
         onClose={toggleDrawer}
         classes={{ paper: classes.drawer }}
         className={classes.root}
       >
-        <Typography sx={{ fontSize: 20 }} color="text.primary" variant="h3" textAlign="center" >
+        <Typography sx={{ fontSize: 20 }} color='text.primary' variant='h3' textAlign='center'>
           LMS Course Management
         </Typography>
         <Box
-          role="presentation"
+          role='presentation'
           onClick={toggleDrawer}
           onKeyDown={toggleDrawer}
           className={classes.box}
         >
-          <List >
-            {
-              list.map((item, index) => (
-                <ListItem button key={item.title}>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItem>
-              ))
-            }
+          <List>
+            {list.map((item, index) => (
+              <ListItem button key={item.title}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItem>
+            ))}
           </List>
           <div>
             <Divider />
@@ -98,6 +97,6 @@ export const DrawerMenu = ({ type }: { type: number }) => {
           </div>
         </Box>
       </Drawer>
-    </div >
-  )
-}
+    </div>
+  );
+};

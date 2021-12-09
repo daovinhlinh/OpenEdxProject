@@ -1,11 +1,12 @@
 export interface PaginationParams {
-  _limit: number;
-  _page: number;
-  _totalRows: number;
+  _next: any,
+  _previous: any,
+  _count: number,
+  _num_pages: number
 }
 
 export interface ListResponse<T> {
-  data: T[],
+  results: T[],
   pagination: PaginationParams;
 }
 
@@ -16,4 +17,10 @@ export interface ListParams {
   _order?: 'asc' | 'desc';
 
   [key: string]: any;
+}
+
+export interface LoginResponse {
+  success: boolean;
+  value: string;
+  error_code: string;
 }

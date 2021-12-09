@@ -1,14 +1,19 @@
 import { PayloadAction } from "@reduxjs/toolkit";
+import authApi from "api/authApi";
+import { LoginResponse } from "models";
 import { call, fork, put, take } from "redux-saga/effects";
 import { authActions, LoginPayload } from "./authSlice";
 
 function* handlelogin(payload: LoginPayload) {
   //call api
 
-  yield put(authActions.loginSuccess({
-    id: '1',
-    name: 'a'
-  }))
+  const res: LoginResponse = yield authApi.login(payload.username, payload.password);
+  console.log(res);
+
+  // yield put(authActions.loginSuccess({
+  //   id: '1',
+  //   name: 'a'
+  // }))
 }
 
 function* handleLogout() {
@@ -20,14 +25,14 @@ function* handleLogout() {
 function* watchLoginFlow() {
   while (1) {
     const isLoggedIn = localStorage.getItem('access_token');
-    if (!isLoggedIn) {
+    if (isLoggedIn == null) {
       //Đợi có dispatch login từ user
       const action: PayloadAction<LoginPayload> = yield take(authActions.login.type);
       yield fork(handlelogin, action.payload);
+    } else {
+      yield take(authActions.logOut.type);
+      yield call(handleLogout); //Dùng call để đợi handleLogout chạy xong mới chạy tiếp vì fork là non-blocking
     }
-
-    yield take(authActions.logOut.type);
-    yield call(handleLogout); //Dùng call để đợi handleLogout chạy xong mới chạy tiếp vì fork là non-blocking
   }
 }
 
