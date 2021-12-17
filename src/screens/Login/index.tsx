@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box, Button, Paper, Theme, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
 import * as yup from 'yup';
@@ -6,8 +6,8 @@ import { useAppDispatch } from 'app/hooks';
 import { CustomTextField } from 'components/CustomTextField';
 import { Formik, FormikProps } from 'formik';
 import { authActions } from '../../features/auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 import axiosClient from 'api/axiosClient';
-import { serialize } from 'object-to-formdata';
 
 export interface LoginForm {
   username: string;
@@ -42,11 +42,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const Login = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const form = useRef<FormikProps<LoginForm> | null>(null);
   const formData = useRef<LoginForm>({
     username: '',
     password: '',
   });
+
+  const goToRegister = () => {
+    navigate(`/register`);
+  };
 
   const handleLoginClick = () => {
     dispatch(
@@ -58,29 +63,31 @@ export const Login = () => {
   };
 
   const onSubmit = async (form: LoginForm) => {
-    let formData = serialize({
-      email: form.username,
-      password: form.password,
-    });
-    console.log(formData);
+    // const params = new URLSearchParams();
+    // params.append('email', form.username);
+    // params.append('password', form.password);
 
-    const res = await axiosClient.post('/user/v1/account/login_session/', formData, {
+    var params = new URLSearchParams();
+    params.append('email', 'linh@gmail.com');
+    params.append('password', '123456');
+
+    const res = await axiosClient.post('', params, {
+      withCredentials: true,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'X-CSRFToken': 'dMmnKNeJQt6194rcf6pIFLdcPuJznjtEViYeiDRjhzP9WMqtkwxmeYO0rVuq1cxi',
-        // 'Access-Control-Allow-Origin': '*'
+        'X-CSRFToken': 'Qel55jkbjdafz3y73N9IrKCuNhLO0VyHaSYFvU472ZSGQPtVakoSx3m7ZKPU5hwY',
+        Cookies:
+          'edx_session=1|ajcsdm05i8c5srqjetbhtzwtlz1gba48|aOo80P6xLUw6|IjAwNmUzMThmMTgwZjJiOWNiMGY5YmQ3MzZhYmRmNjczNzAzZTczMjQwOWNjYzRmMWYwMjk0NDBmMTc5M2UyMTMi:1myG6H:RP9tspzfqHGqhYUn49LX7JCwp78; csrftoken=Qel55jkbjdafz3y73N9IrKCuNhLO0VyHaSYFvU472ZSGQPtVakoSx3m7ZKPU5hwY',
       },
     });
     console.log(res.data);
-
-    // dispatch(authActions.login(form));
   };
 
   return (
     <div className={classes.root}>
       <Paper elevation={1} className={classes.box}>
         <Typography variant='h5' component='h1' align='center' mb={2}>
-          Đăng nhập
+          Đăng nhập 1
         </Typography>
         <Formik
           validationSchema={schema}
@@ -121,21 +128,14 @@ export const Login = () => {
                   Login
                 </Button>
               </Box>
-
-              <Box mt={4}>
-                <Button
-                  disabled={!isValid}
-                  fullWidth
-                  variant='contained'
-                  color={isValid ? 'primary' : 'secondary'}
-                  onClick={() => dispatch(authActions.logOut())}
-                >
-                  Login
-                </Button>
-              </Box>
             </Box>
           )}
         </Formik>
+        <Button onClick={goToRegister}>
+          <Typography variant='body2' align='center' mt={5}>
+            Chưa có tài khoản? Đăng ký ngay
+          </Typography>
+        </Button>
       </Paper>
     </div>
   );
