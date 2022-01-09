@@ -18,9 +18,10 @@ import SaveAltRoundedIcon from '@mui/icons-material/SaveAltRounded';
 import { AddCourse } from 'screens/AddCourse';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadRounded';
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { courseAction } from 'features/course/courseSlice';
-import { RootState } from 'app/store';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { RootState } from '../../redux/stores';
+import { getListCourse } from './actions';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles({
   container: {
@@ -49,20 +50,19 @@ const useStyles = makeStyles({
 
 export const CourseManagement = () => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const data = useAppSelector((state: RootState) => state.course);
+  const dispatch = useDispatch();
+  const data = useAppSelector((state: RootState) => state.course.listCourse);
   const [loading, setLoading] = useState(true);
   const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
-    dispatch(courseAction.getCourse());
+    dispatch(getListCourse());
   }, []);
 
   useEffect(() => {
-    if (data.loading == false) {
+    if (data != null) {
+      console.log(data);
       setLoading(false);
-      console.log(data.loading);
-      console.log(data.courseList[0]);
     }
   }, [data]);
 
@@ -83,12 +83,16 @@ export const CourseManagement = () => {
     </Dialog>
   );
 
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
   return (
     <div className={classes.container}>
       <Stack direction='row' flexWrap='wrap' className={classes.function}>
         <Stack direction='row' spacing={5} flexWrap='wrap'>
           <Typography variant='h6' component='div'>
-            Tổng số khóa học: {data.courseList.length}
+            {/* Tổng số khóa học: {data.courseList.length} */}
           </Typography>
           <Button variant='contained' endIcon={<AddRoundedIcon />} onClick={openDialog}>
             Thêm khóa học
@@ -121,7 +125,7 @@ export const CourseManagement = () => {
               <CircularProgress color='inherit' />
             </Backdrop>
           ) : (
-            data.courseList.map((item, index) => (
+            data.map((item: any, index: any) => (
               <Grid item xs={2} sm={4} md={4}>
                 <CourseContainer data={item} key={index} />
               </Grid>

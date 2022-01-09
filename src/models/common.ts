@@ -24,3 +24,7 @@ export interface LoginResponse {
   value: string;
   error_code: string;
 }
+export interface ActionType {
+  type: string;
+  payload?: any
+}

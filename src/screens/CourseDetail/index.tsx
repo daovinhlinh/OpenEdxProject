@@ -38,12 +38,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ScrollTopButton from 'components/ScrollTopButton';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { courseAction } from 'features/course/courseSlice';
+import { useAppSelector } from 'redux/hooks';
 import { useParams } from 'react-router';
-import { RootState } from 'app/store';
+import { RootState } from 'redux/stores';
 import { AddCourse } from 'screens/AddCourse';
-
+import { getCourseDetail } from './actions';
+import { useDispatch } from 'react-redux';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -120,27 +120,12 @@ const rows = [
   createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
   createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
   createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
-  createData('1', 'Nguyễn Văn A', '01/01/2020', '10', 'Active'),
 ];
 
 interface CourseDetailProps {}
 
 export const CourseDetail = (props: CourseDetailProps) => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [dialog, setDialog] = useState(false);
   const data = useAppSelector((state: RootState) => state.course.courseDetail);
@@ -156,7 +141,7 @@ export const CourseDetail = (props: CourseDetailProps) => {
 
   let { id } = useParams();
   useEffect(() => {
-    dispatch(courseAction.getCourseDetail({ id }));
+    dispatch(getCourseDetail(id));
   }, []);
 
   const openDialog = () => {

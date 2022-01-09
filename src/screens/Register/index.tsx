@@ -2,19 +2,18 @@ import { useRef } from 'react';
 import { Box, Button, Paper, Theme, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
 import * as yup from 'yup';
+import { useAppDispatch } from 'redux/hooks';
 import { CustomTextField } from 'components/CustomTextField';
 import { Formik, FormikProps } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { login } from './actions';
-import { useDispatch } from 'react-redux';
+import { serialize } from 'object-to-formdata';
 
 export interface LoginForm {
-  email: string;
+  username: string;
   password: string;
 }
 
 const schema = yup.object().shape({
-  email: yup.string().required('Vui lòng nhập email'),
+  username: yup.string().required('Vui lòng nhập tên đăng nhập'),
   password: yup.string().required('Vui lòng nhập mật khẩu'),
 });
 
@@ -38,29 +37,28 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const Login = () => {
+export const Register = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const form = useRef<FormikProps<LoginForm> | null>(null);
   const formData = useRef<LoginForm>({
-    email: '',
+    username: '',
     password: '',
   });
 
-  const goToRegister = () => {
-    navigate(`/register`);
-  };
-
   const onSubmit = async (form: LoginForm) => {
-    dispatch(login(form.email, form.password));
+    let formData = serialize({
+      email: form.username,
+      password: form.password,
+    });
+    console.log(formData);
   };
 
   return (
     <div className={classes.root}>
       <Paper elevation={1} className={classes.box}>
         <Typography variant='h5' component='h1' align='center' mb={2}>
-          Đăng nhập 1
+          Đăng ký
         </Typography>
         <Formik
           validationSchema={schema}
@@ -74,21 +72,56 @@ export const Login = () => {
               <CustomTextField
                 title='Tên đăng nhập'
                 hint='Nhập tên đăng nhập'
-                onBlur={handleBlur('email')}
-                onTextChange={handleChange('email')}
-                error={touched.email && errors.email !== undefined}
-                value={values.email}
-                errorText={errors.email}
+                onBlur={handleBlur('username')}
+                onTextChange={handleChange('username')}
+                error={touched.username && errors.username !== undefined}
+                value={values.username}
+                errorText={errors.username}
               />
               <CustomTextField
-                title='Mật khẩu'
+                title='Email'
+                hint='Nhập email'
+                onBlur={handleBlur('email')}
+                onTextChange={handleChange('email')}
+                error={touched.password && errors.password !== undefined}
+                value={values.password}
+                errorText={errors.password}
+              />
+              <CustomTextField
+                title='Password'
                 hint='Nhập mật khẩu'
                 onBlur={handleBlur('password')}
                 onTextChange={handleChange('password')}
                 error={touched.password && errors.password !== undefined}
                 value={values.password}
                 errorText={errors.password}
-                isPassword={true}
+              />
+              <CustomTextField
+                title='Họ và tên'
+                hint='Nhập họ và tên'
+                onBlur={handleBlur('name')}
+                onTextChange={handleChange('name')}
+                error={touched.password && errors.password !== undefined}
+                value={values.password}
+                errorText={errors.password}
+              />
+              <CustomTextField
+                title='Checkbox'
+                hint='Nhập email'
+                onBlur={handleBlur('email')}
+                onTextChange={handleChange('email')}
+                error={touched.password && errors.password !== undefined}
+                value={values.password}
+                errorText={errors.password}
+              />
+              <CustomTextField
+                title='Email'
+                hint='Nhập email'
+                onBlur={handleBlur('email')}
+                onTextChange={handleChange('email')}
+                error={touched.password && errors.password !== undefined}
+                value={values.password}
+                errorText={errors.password}
               />
 
               <Box mt={4}>
@@ -105,11 +138,6 @@ export const Login = () => {
             </Box>
           )}
         </Formik>
-        <Button onClick={goToRegister}>
-          <Typography variant='body2' align='center' mt={5}>
-            Chưa có tài khoản? Đăng ký ngay
-          </Typography>
-        </Button>
       </Paper>
     </div>
   );

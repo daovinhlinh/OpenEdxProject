@@ -29,6 +29,7 @@ export const CustomTextField = (props: CustomTextFieldProps) => {
       error={props.error}
       helperText={props.errorText}
       fullWidth
+      type={props.isPassword ? 'password' : 'text'}
     />
   );
 };

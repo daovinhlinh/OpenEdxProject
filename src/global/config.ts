@@ -1,1 +1,1 @@
-export const API_ENDPOINT = 'https://wts.demo.ftlvn.com.vn/lms';
+export const API_ENDPOINT = 'http://lms01.daotao.ai/api';

@@ -103,7 +103,7 @@ export default function MenuAppBar() {
     setAnchorEl(null);
   };
 
-  if (location.pathname === '/login') {
+  if (location.pathname === '/login' || location.pathname === '/register') {
     return null;
   }
 

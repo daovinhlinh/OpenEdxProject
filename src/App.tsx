@@ -9,6 +9,8 @@ import { UserManagement } from 'screens/UserManagement';
 import { CourseDetail } from 'screens/CourseDetail';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/private-theming';
+import { Register } from 'screens/Register';
+import { CookiesProvider } from 'react-cookie';
 
 const theme = createTheme({
   palette: {
@@ -26,17 +28,20 @@ function App() {
     <div className='App'>
       <ThemeProvider theme={theme}>
         <MenuAppBar />
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route element={<PrivateRoute />}>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/course' element={<CourseManagement />} />
-            <Route path='/user' element={<UserManagement />} />
-            <Route path='/add' element={<AddCourse />} />
-            <Route path='/course/:id' element={<CourseDetail />} />
-          </Route>
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+        <CookiesProvider>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route element={<PrivateRoute />}>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/course' element={<CourseManagement />} />
+              <Route path='/user' element={<UserManagement />} />
+              <Route path='/add' element={<AddCourse />} />
+              <Route path='/course/:id' element={<CourseDetail />} />
+            </Route>
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </CookiesProvider>
       </ThemeProvider>
     </div>
   );
