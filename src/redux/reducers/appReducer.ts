@@ -4,15 +4,15 @@ import { LOGIN_SUCCESS } from "redux/action";
 const initState = {
   isLoading: null,
   loginData: null,
-  loggedIn: null,
+  loggedIn: false,
 };
 
 
 const reducer = (state = initState, action: PayloadAction) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      console.log('LOGIN SUCCESS')
-      return state;
+      return { ...state, loggedIn: true };
+
     default:
       return state;
   }

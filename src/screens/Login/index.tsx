@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Box, Button, Paper, Theme, Typography } from '@mui/material/';
 import { makeStyles } from '@mui/styles';
 import * as yup from 'yup';
@@ -6,7 +6,9 @@ import { CustomTextField } from 'components/CustomTextField';
 import { Formik, FormikProps } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { login } from './actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from 'redux/hooks';
+import { RootState } from 'redux/stores';
 
 export interface LoginForm {
   email: string;
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const Login = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const loginData = useAppSelector((state: RootState) => state.app.loggedIn);
   const navigate = useNavigate();
   const form = useRef<FormikProps<LoginForm> | null>(null);
   const formData = useRef<LoginForm>({
@@ -55,6 +58,14 @@ export const Login = () => {
   const onSubmit = async (form: LoginForm) => {
     dispatch(login(form.email, form.password));
   };
+
+  useEffect(() => {
+    if (loginData) {
+      console.log('logged in');
+
+      navigate('/');
+    }
+  }, [loginData])
 
   return (
     <div className={classes.root}>

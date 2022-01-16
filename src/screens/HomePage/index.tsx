@@ -78,7 +78,7 @@ export const HomePage = () => {
             title='20'
             subtitle='người'
             buttonText='Xem chi tiết'
-            page='course'
+            page='user'
           />
           <CustomCard
             heading='Số khóa học'
