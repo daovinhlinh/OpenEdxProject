@@ -1,16 +1,25 @@
-import { NotFound, PrivateRoute } from 'components/Common';
-import { Login } from 'screens/Login';
+// import { NotFound, PrivateRoute } from 'components/Common';
+// import { Login } from 'screens/Login';
 import { Route, Routes } from 'react-router-dom';
-import { HomePage } from 'screens/HomePage';
-import { CourseManagement } from 'screens/CourseManagement';
-import MenuAppBar from 'components/MenuAppBar';
-import { AddCourse } from 'screens/AddCourse';
-import { UserManagement } from 'screens/UserManagement';
-import { CourseDetail } from 'screens/CourseDetail';
+// import { HomePage } from 'screens/HomePage';
+// import { CourseManagement } from 'screens/CourseManagement';
+// import MenuAppBar from 'components/MenuAppBar';
+// import { AddCourse } from 'screens/AddCourse';
+// import { UserManagement } from 'screens/UserManagement';
+// import { CourseDetail } from 'screens/CourseDetail';
+// import { Register } from 'screens/Register';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@mui/private-theming';
-import { Register } from 'screens/Register';
 import { CookiesProvider } from 'react-cookie';
+import { NotFound, PrivateRoute } from './components/Common';
+import { Login } from './screens/Login';
+import { Register } from './screens/Register';
+import { HomePage } from './screens/HomePage';
+import { CourseManagement } from './screens/CourseManagement';
+import { UserManagement } from './screens/UserManagement';
+import { AddCourse } from './screens/AddCourse';
+import { CourseDetail } from './screens/CourseDetail';
+import MenuAppBar from './components/MenuAppBar';
 
 const theme = createTheme({
   palette: {

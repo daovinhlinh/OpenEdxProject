@@ -12,6 +12,8 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 300;
 
@@ -35,7 +37,6 @@ const useStyles = makeStyles({
 
 export const DrawerMenu = ({ type }: { type: number }) => {
   const classes = useStyles();
-
   const [drawer, setDrawer] = useState(false);
 
   const toggleDrawer = () => {
@@ -88,11 +89,13 @@ export const DrawerMenu = ({ type }: { type: number }) => {
           </List>
           <div>
             <Divider />
-            <ListItem button key={'Log out'}>
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary={'Log out'} />
+            <ListItem button key={'Log out'} onClick={() => console.log('hello')}>
+              <Link to='login'>
+                <ListItemIcon>
+                  <LogoutIcon onClick={() => console.log('hello')} />
+                </ListItemIcon>
+                <ListItemText primary={'Log out'} />
+              </Link>
             </ListItem>
           </div>
         </Box>

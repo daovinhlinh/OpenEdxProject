@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import CourseContainer from 'components/CourseContainer';
 import { makeStyles } from '@mui/styles';
 import {
   Button,
@@ -18,10 +17,11 @@ import SaveAltRoundedIcon from '@mui/icons-material/SaveAltRounded';
 import { AddCourse } from 'screens/AddCourse';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadRounded';
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { useAppSelector } from 'redux/hooks';
 import { RootState } from '../../redux/stores';
 import { getListCourse } from './actions';
 import { useDispatch } from 'react-redux';
+import CourseContainer from '../../components/CourseContainer';
 
 const useStyles = makeStyles({
   container: {
@@ -56,7 +56,9 @@ export const CourseManagement = () => {
   const [dialog, setDialog] = useState(false);
 
   useEffect(() => {
-    dispatch(getListCourse());
+    if (data == null) {
+      dispatch(getListCourse());
+    }
   }, []);
 
   useEffect(() => {
@@ -78,13 +80,19 @@ export const CourseManagement = () => {
     <Dialog open={dialog} onClose={closeDialog}>
       <DialogTitle sx={{ textAlign: 'center' }}>Thêm khóa học</DialogTitle>
       <DialogContent>
-        <AddCourse onClose={closeDialog} />
+        <AddCourse onClose={closeDialog} onSubmit={(value) => console.log(value)} />
       </DialogContent>
     </Dialog>
   );
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <Box
+        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (

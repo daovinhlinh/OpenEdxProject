@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   Button,
@@ -26,6 +26,11 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 import { AddCourse } from 'screens/AddCourse';
 import { Box } from '@mui/system';
+import { useDispatch } from 'react-redux';
+import { getListUser } from './actions';
+import { useAppSelector } from 'redux/hooks';
+import { RootState } from 'redux/stores';
+import { format } from 'date-fns/esm';
 
 const useStyles = makeStyles({
   container: {
@@ -53,9 +58,17 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
-  status: {
+  active: {
     padding: 7,
-    backgroundColor: '#D2EBD3',
+    backgroundColor: '#9BD39E',
+    display: 'inline-block',
+    borderRadius: 50,
+    color: '#9BD39E',
+    fontWeight: 'bold',
+  },
+  inActive: {
+    padding: 7,
+    backgroundColor: 'red',
     display: 'inline-block',
     borderRadius: 50,
     color: '#9BD39E',
@@ -83,6 +96,8 @@ const rows = [
 ];
 
 export const UserManagement = () => {
+  const listUser = useAppSelector((state: RootState) => state.user.listUser);
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [dialog, setDialog] = useState(false);
 
@@ -94,6 +109,16 @@ export const UserManagement = () => {
     setDialog(true);
   };
 
+  useEffect(() => {
+    dispatch(getListUser());
+  }, []);
+
+  useEffect(() => {
+    if (listUser != null) {
+      console.log(listUser);
+    }
+  }, [listUser]);
+
   const AddCourseDialog = () => (
     <Dialog open={dialog} onClose={closeDialog}>
       <DialogTitle sx={{ textAlign: 'center' }}>Thêm khóa học</DialogTitle>
@@ -103,12 +128,16 @@ export const UserManagement = () => {
     </Dialog>
   );
 
+  if (listUser == null) {
+    return <div>Loading</div>;
+  }
+
   return (
     <div className={classes.container}>
       <Stack direction='row' flexWrap='wrap' className={classes.function}>
         <Stack direction='row' spacing={5} flexWrap='wrap'>
           <Typography variant='h6' component='div'>
-            Tổng số học viên: 6
+            Tổng số học viên: {listUser.length}
           </Typography>
           <Button variant='contained' endIcon={<AddRoundedIcon />} onClick={openDialog}>
             Thêm học viên
@@ -135,23 +164,27 @@ export const UserManagement = () => {
               <TableCell>Học viên</TableCell>
               <TableCell align='left'>Ngày bắt đầu</TableCell>
               <TableCell align='left'>Email</TableCell>
-              <TableCell align='left'>Status</TableCell>
+
+              <TableCell align='center'>Status</TableCell>
               <TableCell align='center'>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, index) => (
+            {listUser.map((user, index) => (
               <TableRow key={index}>
                 <TableCell scope='row'>
                   <Stack direction='row' spacing={2} alignItems='center'>
-                    <Avatar alt='Remy Sharp' src='https://www.w3schools.com/howto/img_avatar.png' />
-                    <Typography>{row.name}</Typography>
+                    <Avatar alt='image' src={user.image_url_small} />
+                    <Typography>{user.username}</Typography>
                   </Stack>
                 </TableCell>
-                <TableCell align='left'>{row.date}</TableCell>
-                <TableCell align='left'>{row.email}</TableCell>
                 <TableCell align='left'>
-                  <Box className={classes.status}>{row.userStatus}</Box>
+                  {format(new Date(user.date_joined), 'dd/MM/yyyy')}
+                </TableCell>
+                <TableCell align='left'>{user.email}</TableCell>
+
+                <TableCell align='center'>
+                  <Box className={user.is_active ? classes.active : classes.inActive}></Box>
                 </TableCell>
                 <TableCell align='center'>
                   <IconButton color='primary' aria-label='center' component='span'>

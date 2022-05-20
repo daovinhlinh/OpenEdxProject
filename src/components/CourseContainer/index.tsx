@@ -13,8 +13,8 @@ import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { CardActions, Menu, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router';
-import { Course } from 'models';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Course } from '../../models';
 
 interface CourseContainerProps {
   data: Course;
@@ -42,7 +42,7 @@ export default function CourseContainer({ data }: { data: Course }) {
   };
 
   const goToEdit = () => {
-    navigate(`/course/${data.id}`);
+    navigate(`/course/${data.id}`, { state: data } as any);
   };
 
   return (

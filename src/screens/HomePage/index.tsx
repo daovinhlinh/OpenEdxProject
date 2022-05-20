@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DrawerMenu } from 'components/DrawerMenu';
-import { Box, Tabs, Tab, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { CustomCard } from 'components/CustomCard';
+import { useDispatch } from 'react-redux';
+import { getListCourse } from 'screens/CourseManagement/actions';
+import { useAppSelector } from 'redux/hooks';
+import { getListUser } from 'screens/UserManagement/actions';
+import { RootState } from 'redux/stores';
+import CustomCard from 'components/CustomCard/';
 
 const useStyles = makeStyles({
   root: {
@@ -54,12 +59,32 @@ const TabPanel = (props: TabPanelProps) => {
 };
 
 export const HomePage = () => {
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = useState(0);
+  // const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const handleChangeTab = (event: React.SyntheticEvent, value: number) => {
     setTab(value);
   };
 
   const classes = useStyles();
+
+  const listUser = useAppSelector((state: RootState) => state.user.listUser);
+  const listCourse = useAppSelector((state: RootState) => state.course.listCourse);
+
+  useEffect(() => {
+    if (listUser == null) {
+      dispatch(getListUser());
+    }
+
+    if (listCourse == null) {
+      dispatch(getListCourse());
+    }
+  }, []);
+
+  useEffect(() => {
+    document.cookie =
+      'sessionid=1|2796avqznb6ew4w7bzzw9enq4h1ukpgb|C03MAJScMyj3|Ijk1YWM0YTRlNjM3MmI5MWYzYWMwM2E2ZTBjNjBiM2I2MzJiZTFkZjAzNmZhMjA2YTU1YTJiYzExYzQ1YTE4Y2Mi:1nStKx:a1NMyRtw8u_RJrbtX6fz1kPBvxg';
+  }, []);
 
   return (
     <div>
@@ -68,72 +93,18 @@ export const HomePage = () => {
         <div className={classes.detailPage}>
           <CustomCard
             heading='Số khóa học'
-            title='20'
+            title={listCourse != null ? listCourse.length : 0}
             subtitle='khóa'
             buttonText='Xem chi tiết'
             page='course'
           />
           <CustomCard
             heading='Số học sinh'
-            title='20'
+            title={listUser != null ? listUser.length : 0}
             subtitle='người'
             buttonText='Xem chi tiết'
             page='user'
           />
-          <CustomCard
-            heading='Số khóa học'
-            title='20'
-            subtitle='subtitle'
-            buttonText='Xem chi tiết'
-            page='course'
-          />
-          <CustomCard
-            heading='Số khóa học'
-            title='20'
-            subtitle='subtitle'
-            buttonText='Xem chi tiết'
-            page='course'
-          />
-          <div className={classes.tableContainer}>
-            <div className={classes.table}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-                <Tabs value={tab} onChange={handleChangeTab} aria-label='basic tabs example'>
-                  <Tab label='Item One' />
-                  <Tab label='Item Two' />
-                  <Tab label='Item Three' />
-                </Tabs>
-              </Box>
-              <TabPanel value={tab} index={0}>
-                Tab 1
-              </TabPanel>
-              <TabPanel value={tab} index={1}>
-                Tab 2
-              </TabPanel>
-              <TabPanel value={tab} index={2}>
-                Tab 3
-              </TabPanel>
-            </div>
-            <div className={classes.table}>
-              <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-                <Tabs value={tab} onChange={handleChangeTab} aria-label='basic tabs example'>
-                  <Tab label='Item One' />
-                  <Tab label='Item Two' />
-                  <Tab label='Item Three' />
-                </Tabs>
-              </Box>
-              <TabPanel value={tab} index={0}>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sint, molestias officia
-                alias distinctio corporis fuga suscipit, error saepe consectetur quo autem officiis
-                nisi dicta illum eius blanditiis consequuntur accusamus voluptas?
-              </TabPanel>
-              <TabPanel value={tab} index={1}>
-                Tab 2
-              </TabPanel>
-              <TabPanel value={tab} index={2}>
-                Tab 3
-              </TabPanel>
-            </div>
-          </div>
         </div>
       </div>
     </div>

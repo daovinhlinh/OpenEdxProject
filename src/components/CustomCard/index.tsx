@@ -10,37 +10,38 @@ interface CustomCardProps {
   page: string;
 }
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles({
   link: {
     textDecoration: 'none',
   },
-}));
+});
 
-export const CustomCard = (props: CustomCardProps) => {
+const CustomCard = (props: CustomCardProps) => {
   const classes = useStyles();
   const { heading, title, subtitle, buttonText, page } = props;
 
   return (
     <Card sx={{ minWidth: 275, margin: 2 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 14 }} color='text.secondary' gutterBottom>
           {heading}
         </Typography>
-        <Typography variant="h5" component="div" sx={{ fontSize: 50 }}>
+        <Typography variant='h5' component='div' sx={{ fontSize: 50 }}>
           {title}
         </Typography>
-        <Typography variant="body1">
-          {subtitle}
-        </Typography>
+        <Typography variant='body1'>{subtitle}</Typography>
       </CardContent>
       <CardActions>
-        {buttonText && <Button size="small">
-          <Link to={page} className={classes.link}>
-            {buttonText}
-          </Link>
-        </Button>}
+        {buttonText && (
+          <Button size='small'>
+            <Link to={page} className={classes.link}>
+              {buttonText}
+            </Link>
+          </Button>
+        )}
       </CardActions>
     </Card>
-  )
-}
+  );
+};
 
+export default CustomCard;

@@ -2,7 +2,7 @@ import { makeStyles } from '@mui/styles';
 import { Button, Box, styled, Typography, Stack } from '@mui/material';
 import { Formik, FormikProps } from 'formik';
 import * as yup from 'yup';
-import { useRef } from 'react';
+import { MouseEventHandler, useRef } from 'react';
 import { CustomTextField } from 'components/CustomTextField';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import MovieCreationIcon from '@mui/icons-material/MovieCreation';
@@ -18,6 +18,7 @@ export interface CourseForm {
 
 export interface AddCourseProps {
   onClose?: () => void;
+  onSubmit?: (value: CourseForm) => void;
 }
 
 const schema = yup.object().shape({
@@ -29,15 +30,13 @@ const schema = yup.object().shape({
     .matches(
       /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
       'Vui lòng nhập đúng định dạng '
-    )
-    .required('Vui lòng nhập đường dẫn video'),
+    ),
   thumbnail: yup
     .string()
     .matches(
       /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
       'Vui lòng nhập đúng định dạng '
-    )
-    .required('Vui lòng nhập đường dẫn ảnh mô tả'),
+    ),
 });
 
 const useStyles = makeStyles({
@@ -57,13 +56,15 @@ export const AddCourse = (props: AddCourseProps) => {
   const form = useRef<FormikProps<CourseForm> | null>(null);
   const formData = useRef<CourseForm>({});
 
-  const onSubmit = () => {};
+  const handleSubmit = (value) => {
+    props.onSubmit(value);
+  };
 
   return (
     <Formik
       validationSchema={schema}
       initialValues={formData.current}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
       innerRef={(instance) => (form.current = instance)}
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, isValid, touched }) => (
@@ -75,7 +76,7 @@ export const AddCourse = (props: AddCourseProps) => {
             onTextChange={handleChange('courseNumber')}
             error={touched.courseNumber && errors.courseNumber !== undefined}
             value={values.courseNumber}
-            errorText={errors.courseNumber}
+            errorText={errors.courseNumber as string}
           />
           <CustomTextField
             title='Tên khóa học*'
@@ -84,7 +85,7 @@ export const AddCourse = (props: AddCourseProps) => {
             onTextChange={handleChange('courseName')}
             error={touched.courseName && errors.courseName !== undefined}
             value={values.courseName}
-            errorText={errors.courseName}
+            errorText={errors.courseName as string}
           />
           <CustomTextField
             title='Mô tả*'
@@ -93,7 +94,7 @@ export const AddCourse = (props: AddCourseProps) => {
             onTextChange={handleChange('description')}
             value={values.description}
             error={touched.description && errors.description !== undefined}
-            errorText={errors.description}
+            errorText={errors.description as string}
           />
           <CustomTextField
             title='Tag'
@@ -102,7 +103,7 @@ export const AddCourse = (props: AddCourseProps) => {
             onTextChange={handleChange('tag')}
             value={values.tag}
             error={touched.tag && errors.tag !== undefined}
-            errorText={errors.tag}
+            errorText={errors.tag as string}
           />
           <div className={classes.row}>
             <Box>
@@ -130,7 +131,13 @@ export const AddCourse = (props: AddCourseProps) => {
           </div>
           <Stack spacing={10} direction='row' sx={{ justifyContent: 'center', mt: 5 }}>
             <Button onClick={props.onClose}>Hủy bỏ</Button>
-            <Button onClick={props.onClose} variant='contained'>
+            <Button
+              onClick={
+                handleSubmit as unknown as MouseEventHandler<HTMLButtonElement>
+                // () => console.log('123')
+              }
+              variant='contained'
+            >
               Xác nhận
             </Button>
           </Stack>

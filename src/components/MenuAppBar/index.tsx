@@ -46,11 +46,6 @@ const list = [
     route: '/user',
     icon: <PeopleIcon />,
   },
-  {
-    title: 'Grades',
-    route: '/grade',
-    icon: <AppsIcon />,
-  },
 ];
 
 const drawerWidth = 300;
